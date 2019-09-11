@@ -10,7 +10,7 @@ services:
       - DB_USERNAME=root
       - DB_PASSWORD=password
       - DB_NAME=orel-docker
-      - DB_HOSTNAME=172.19.0.1
+      - DB_HOSTNAME=mysql
     command: npm run docker
     volumes:
       - .:/user/src/app

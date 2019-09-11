@@ -1,16 +1,16 @@
 # To build the application docker image
 docker build . -t orel
 
-# To run the application docker image
-docker run --rm -d --name=orel-app -e PORT=3000 -e DB_USERNAME=root -e DB_PASSWORD=password -e DB_NAME=orel-docker -e DB_HOSTNAME=172.17.0.1 -p 3000:3000 orel
-
 # To start a MySQL docker container
 docker run --rm -d --name=orel-mysql -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 mysql:5.7.27
 
-# To look for the actual DB_HOSTNAME address (just to be sure, but it's usually 172.17.0.1)
+# To look for the actual DB_HOSTNAME address (just to be sure, but it's usually 172.*.0.1)
 docker inspect orel-mysql
 
-# To set up and migrate database (choose the needed one)
+# To run the application docker image (replace DB_HOSTNAME with the orel-mysql address)
+docker run --rm -d --name=orel-app -e PORT=3000 -e DB_USERNAME=root -e DB_PASSWORD=password -e DB_NAME=orel-docker -e DB_HOSTNAME=127.0.0.1 -p 3000:3000 orel
+
+# To set up and migrate database
 docker exec -it orel-app npm run db-setup-docker
 
 # NB! Only applyable if you want to work with MySQL 8.x or higher.
