@@ -12,6 +12,8 @@
     "db-reset": "npx sequelize db:drop && npx sequelize db:create && npx sequelize db:migrate",
     "db-setup-test": "cross-env NODE_ENV=test npm run db-setup",
     "db-reset-test": "cross-env NODE_ENV=test npm run db-reset",
+    "db-setup-docker": "cross-env NODE_ENV=docker npm run db-setup",
+    "db-reset-docker": "cross-env NODE_ENV=docker npm run db-reset",
     "test": "jest --runInBand --forceExit"
   },
   "dependencies": {

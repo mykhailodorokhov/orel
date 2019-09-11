@@ -2,7 +2,7 @@
 docker build . -t orel
 
 # To run the application docker image
-docker run --rm -d --name=orel-app -e PORT=3000 -e DB_USERNAME=root -e DB_PASSWORD=password -e DB_NAME=orel-development -e DB_HOSTNAME=172.17.0.1 -p 3001:3000 orel
+docker run --rm -d --name=orel-app -e PORT=3000 -e DB_USERNAME=root -e DB_PASSWORD=password -e DB_NAME=orel-docker -e DB_HOSTNAME=172.17.0.1 -p 3001:3000 orel
 
 # To start a MySQL docker container
 docker run --rm -d --name=orel-mysql -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 mysql:5.7.27
