@@ -22,16 +22,12 @@ async function createOrganizationStructure(organizationsDto) {
         { returning: true }
         );
 
-
-    console.log(JSON.stringify(organizationGraph));
-
     // We're going to use organizations[], returned from the bulkCreate(),
     // as a local cache not to query the database for IDs
     let findOrganizationIdByName = (organizations, organizationName) => {
         let organization = organizations.find(org => {
             return org.name.toLowerCase() == organizationName.toLowerCase();
         });
-        console.log(organizationName);
         return organization.id;
     };
 
