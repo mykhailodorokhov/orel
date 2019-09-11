@@ -1,5 +1,6 @@
 const {Organization, Relation} = require('../models/index');
 const Op = require('../models/index').Sequelize.Op;
+const sequelize = require('../models/index').Sequelize;
 
 module.exports.getRelationsByPage = getRelationsByPage;
 
@@ -56,7 +57,7 @@ async function findParentNamesOf(organizationName) {
             model: Organization, as: 'parent', attributes: ['name']
         }, {
             model: Organization, as: 'daughter', attributes: ['name'],
-            where: {name: organizationName}
+            where: {name: {[Op.like]: organizationName}}
         }]
     });
 
@@ -67,7 +68,7 @@ async function findDaughterNamesOf(organizationName) {
     let daughters = await Relation.findAll({
         include: [{
             model: Organization, as: 'parent', attributes: ['name'],
-            where: {name: organizationName}
+            where: {name: {[Op.like]: organizationName}}
         }, {
             model: Organization, as: 'daughter', attributes: ['name']
         }]
@@ -81,14 +82,10 @@ async function findSisterNamesOf(organizationName, parentNames) {
         attributes: [],
         include: [{
             model: Organization, as: 'parent', attributes: [],
-            where: {
-                name: { [Op.or]: parentNames },
-            }
+            where: { name: {[Op.or]: parentNames }}
         },{
             model: Organization, as: 'daughter', attributes: ['name'],
-            where: {
-                name: { [Op.ne]: organizationName },
-            }
+            where: { name: { [Op.ne]: organizationName }}
         }]
     });
 

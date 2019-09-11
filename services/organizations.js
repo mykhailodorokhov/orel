@@ -22,10 +22,16 @@ async function createOrganizationStructure(organizationsDto) {
         { returning: true }
         );
 
+
+    console.log(JSON.stringify(organizationGraph));
+
     // We're going to use organizations[], returned from the bulkCreate(),
     // as a local cache not to query the database for IDs
     let findOrganizationIdByName = (organizations, organizationName) => {
-        let organization = organizations.find(org => org.name == organizationName);
+        let organization = organizations.find(org => {
+            return org.name.toLowerCase() == organizationName.toLowerCase();
+        });
+        console.log(organizationName);
         return organization.id;
     };
 
@@ -44,8 +50,13 @@ async function createOrganizationStructure(organizationsDto) {
 function parseOrganizationGraph(organizationGraph, organizationDto, parentName) {
     let organizationName = organizationDto.org_name;
 
+    // We'll treat organization name as case insensetive, e.g. "Kalev" equals "kalev"
+    let containtsCaseInsensitive = (x, y) => {
+        return x.filter(x => x.toLowerCase() == y.toLowerCase()).length > 0;
+    }
+
     // If the organization name is not in the unique organization names list, adding it
-    if (organizationGraph.organizationNames.indexOf(organizationName) === -1) {
+    if (!containtsCaseInsensitive(organizationGraph.organizationNames,organizationName)) {
         organizationGraph.organizationNames.push(organizationName);
     }
 
